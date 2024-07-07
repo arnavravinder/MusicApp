@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Music Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" integrity="sha512-2fTXz1Uoi/kLqP0hABt2W38+jcRNUDbbq8kI5PfP5D/Z7/r4VNYtAhZnqSStSGyEyh2HvYwV8uPeRbIPIMc8sg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #1f4037, #99f2c8);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            text-align: center;
+        }
+
+        header {
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin: 0;
+        }
+
+        header input {
+            width: 80%;
+            padding: 10px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .current-track {
+            margin-top: 50px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .current-track h2 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        #controls {
+            margin-top: 20px;
+        }
+
+        #controls button {
+            background: #ff4b1f;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        #search-results {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        #search-results div {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Futuristic Music Player</h1>
+            <input type="text" id="search" placeholder="Search for music...">
+        </header>
+        <main>
+            <div class="current-track" data-tilt>
+                <div id="track-info">
+                    <h2>Track Title</h2>
+                    <p>Artist</p>
+                </div>
+                <div id="controls">
+                    <button id="prev">Prev</button>
+                    <button id="play">Play</button>
+                    <button id="next">Next</button>
+                </div>
+            </div>
+            <div id="search-results"></div>
+        </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" integrity="sha512-3kX5RaK4gbSpBBT/HtFk+yDZj2lpTLvsSeJGRuDbk69KtjqS95wqF3kHQIx+5nW0Tc8/qJZTNAZjzPlzAW3H6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-Gfn7zFZ8eCmULHXAZHhf9K4hhs1QBDDSBR5JrDo95uUK2LSff7j6H1r6+uuz5MOe19uOxr+ISGlnVzPQtF9p0g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="app.js"></script>
+</body>
+</html>
