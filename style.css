@@ -136,3 +136,49 @@ header input {
     background: rgba(255, 255, 255, 0.2);
     transform: scale(1.05);
 }
+#volume-control {
+    margin-top: 20px;
+}
+
+#volume-slider {
+    width: 80%;
+    margin: 0 auto;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 5px;
+    background: #333;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .2s;
+}
+
+#volume-slider:hover {
+    opacity: 1;
+}
+
+#playlist-container {
+    margin-top: 30px;
+}
+
+#playlist-container h3 {
+    color: #0fefdb;
+    text-shadow: 0 0 10px #0fefdb;
+}
+
+#playlist {
+    text-align: left;
+}
+
+#playlist div {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+#playlist div:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}

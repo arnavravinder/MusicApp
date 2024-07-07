@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const playButton = document.getElementById('play');
     const prevButton = document.getElementById('prev');
     const nextButton = document.getElementById('next');
+    const volumeSlider = document.getElementById('volume-slider');
+    const playlistContainer = document.getElementById('playlist-container');
+    const playlist = document.getElementById('playlist');
 
     let currentTrackIndex = 0;
     let tracks = [];
@@ -56,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             trackDiv.addEventListener('click', () => {
                 currentTrackIndex = index;
                 playTrack(track);
+                addToPlaylist(track);
             });
             searchResults.appendChild(trackDiv);
         });
@@ -100,4 +104,20 @@ document.addEventListener('DOMContentLoaded', () => {
             playTrack(tracks[currentTrackIndex]);
         }
     });
+
+    volumeSlider.addEventListener('input', (event) => {
+        audio.volume = event.target.value / 100;
+    });
+
+    function addToPlaylist(track) {
+        const trackDiv = document.createElement('div');
+        trackDiv.innerHTML = `
+            <h3>${track.name}</h3>
+            <p>${track.artists.map(artist => artist.name).join(', ')}</p>
+        `;
+        trackDiv.addEventListener('click', () => {
+            playTrack(track);
+        });
+        playlist.appendChild(trackDiv);
+    }
 });
