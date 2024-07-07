@@ -1,169 +1,129 @@
 document.addEventListener('DOMContentLoaded', () => {
     AOS.init();
-    VanillaTilt.init(document.querySelectorAll(".current-track"), {
+
+    VanillaTilt.init(document.querySelector(".current-track"), {
         max: 25,
         speed: 400,
         glare: true,
         "max-glare": 0.5,
     });
 
-    const searchInput = document.getElementById('search');
-    const searchResults = document.getElementById('search-results');
-    const loader = document.getElementById('loader');
-    const trackInfo = document.getElementById('track-info');
-    const trackTitle = trackInfo.querySelector('h2');
-    const trackArtist = trackInfo.querySelector('p');
-    const albumArt = trackInfo.querySelector('img');
-    const trackDuration = document.getElementById('track-duration');
-    const playButton = document.getElementById('play');
-    const prevButton = document.getElementById('prev');
-    const nextButton = document.getElementById('next');
-    const volumeSlider = document.getElementById('volume-slider');
-    const playlistContainer = document.getElementById('playlist-container');
-    const playlist = document.getElementById('playlist');
-    const favoriteButton = document.getElementById('favorite');
-    const usernameInput = document.getElementById('username');
-    const passwordInput = document.getElementById('password');
+    let playlists = [
+        { title: 'Awesome Mix Vol. 1', artist: 'Various Artists', duration: '1:23' },
+        { title: 'Best of 90s', artist: 'Various Artists', duration: '1:45' },
+        { title: 'Chill Vibes', artist: 'Relaxation Experts', duration: '0:59' }
+    ];
+
+    let favorites = [
+        { title: 'Favorite Song 1', artist: 'Favorite Artist', duration: '2:30' },
+        { title: 'Favorite Song 2', artist: 'Favorite Artist', duration: '3:15' }
+    ];
+
+    function displayPlaylists() {
+        const playlistContainer = document.getElementById('playlist');
+        playlistContainer.innerHTML = '';
+        playlists.forEach(song => {
+            const songElement = document.createElement('div');
+            songElement.classList.add('playlist-song');
+            songElement.innerHTML = `<p>${song.title} - ${song.artist} (${song.duration})</p>`;
+            playlistContainer.appendChild(songElement);
+        });
+    }
+
+    function displayFavorites() {
+        const favoritesContainer = document.getElementById('favorites');
+        favoritesContainer.innerHTML = '';
+        favorites.forEach(song => {
+            const songElement = document.createElement('div');
+            songElement.classList.add('favorite-song');
+            songElement.innerHTML = `<p>${song.title} - ${song.artist} (${song.duration})</p>`;
+            favoritesContainer.appendChild(songElement);
+        });
+    }
+
+    displayPlaylists();
+    displayFavorites();
+
+    const addToFavoritesButton = document.getElementById('favorite');
+    addToFavoritesButton.addEventListener('click', () => {
+        const currentTrack = {
+            title: 'Track Title',
+            artist: 'Artist Name',
+            duration: '3:30'
+        };
+        favorites.push(currentTrack);
+        displayFavorites();
+    });
+
     const loginButton = document.getElementById('login');
     const logoutButton = document.getElementById('logout');
-
-    let currentTrackIndex = 0;
-    let tracks = [];
-    let audio = new Audio();
-    let isAuthenticated = false;
-    let favorites = [];
-
-    searchInput.addEventListener('keyup', async (event) => {
-        const query = event.target.value;
-        if (query.length > 2) {
-            loader.style.display = 'block';
-            const results = await searchMusic(query);
-            loader.style.display = 'none';
-            displayResults(results);
-        }
-    });
-
-    async function searchMusic(query) {
-        const apiKey = 'YOUR_SPOTIFY_API_KEY';
-        const response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track&limit=10`, {
-            headers: {
-                'Authorization': `Bearer ${apiKey}`
-            }
-        });
-        const data = await response.json();
-        return data.tracks.items;
-    }
-
-    function displayResults(trackList) {
-        searchResults.innerHTML = '';
-        tracks = trackList;
-        tracks.forEach((track, index) => {
-            const trackDiv = document.createElement('div');
-            trackDiv.innerHTML = `
-                <h3>${track.name}</h3>
-                <p>${track.artists.map(artist => artist.name).join(', ')}</p>
-            `;
-            trackDiv.addEventListener('click', () => {
-                currentTrackIndex = index;
-                playTrack(track);
-                addToPlaylist(track);
-            });
-            searchResults.appendChild(trackDiv);
-        });
-    }
-
-    function playTrack(track) {
-        trackTitle.textContent = track.name;
-        trackArtist.textContent = track.artists.map(artist => artist.name).join(', ');
-        albumArt.src = track.album.images[0].url;
-        trackDuration.textContent = formatDuration(track.duration_ms);
-        audio.src = track.preview_url;
-        audio.play();
-        playButton.textContent = 'Pause';
-    }
-
-    function formatDuration(ms) {
-        const minutes = Math.floor(ms / 60000);
-        const seconds = ((ms % 60000) / 1000).toFixed(0);
-        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-    }
-
-    playButton.addEventListener('click', () => {
-        if (audio.paused) {
-            audio.play();
-            playButton.textContent = 'Pause';
-        } else {
-            audio.pause();
-            playButton.textContent = 'Play';
-        }
-    });
-
-    prevButton.addEventListener('click', () => {
-        if (currentTrackIndex > 0) {
-            currentTrackIndex--;
-            playTrack(tracks[currentTrackIndex]);
-        }
-    });
-
-    nextButton.addEventListener('click', () => {
-        if (currentTrackIndex < tracks.length - 1) {
-            currentTrackIndex++;
-            playTrack(tracks[currentTrackIndex]);
-        }
-    });
-
-    volumeSlider.addEventListener('input', (event) => {
-        audio.volume = event.target.value / 100;
-    });
-
-    favoriteButton.addEventListener('click', () => {
-        if (isAuthenticated) {
-            const currentTrack = tracks[currentTrackIndex];
-            if (!favorites.some(track => track.id === currentTrack.id)) {
-                favorites.push(currentTrack);
-                alert('Track added to favorites!');
-                updateFavorites();
-            } else {
-                alert('Track is already in favorites!');
-            }
-        } else {
-            alert('Please login to add to favorites');
-        }
-    });
-
-    function updateFavorites() {
-        playlist.innerHTML = '';
-        favorites.forEach(track => {
-            const trackDiv = document.createElement('div');
-            trackDiv.innerHTML = `
-                <h3>${track.name}</h3>
-                <p>${track.artists.map(artist => artist.name).join(', ')}</p>
-            `;
-            playlist.appendChild(trackDiv);
-        });
-    }
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
 
     loginButton.addEventListener('click', () => {
         const username = usernameInput.value;
         const password = passwordInput.value;
         if (username === 'user' && password === 'password') {
-            isAuthenticated = true;
-            alert('Login successful');
-            usernameInput.style.display = 'none';
-            passwordInput.style.display = 'none';
+            alert('Login successful!');
             loginButton.style.display = 'none';
             logoutButton.style.display = 'inline-block';
+            usernameInput.value = '';
+            passwordInput.value = '';
         } else {
-            alert('Invalid credentials');
+            alert('Invalid credentials. Please try again.');
+            usernameInput.value = '';
+            passwordInput.value = '';
         }
     });
 
     logoutButton.addEventListener('click', () => {
-        isAuthenticated = false;
-        alert('Logout successful');
-        usernameInput.style.display = 'inline-block';
-        passwordInput.style.display = 'inline-block';
-        loginButton.style.display = 'inline-block';
+        alert('Logged out successfully!');
         logoutButton.style.display = 'none';
+        loginButton.style.display = 'inline-block';
     });
+
+    const playButton = document.getElementById('play');
+    const prevButton = document.getElementById('prev');
+    const nextButton = document.getElementById('next');
+
+    playButton.addEventListener('click', () => {
+        playButton.classList.toggle('playing');
+        const isPlaying = playButton.classList.contains('playing');
+        playButton.textContent = isPlaying ? 'Pause' : 'Play';
+    });
+
+    prevButton.addEventListener('click', () => {
+        alert('Playing previous track.');
+    });
+
+    nextButton.addEventListener('click', () => {
+        alert('Playing next track.');
+    });
+
+    const volumeSlider = document.getElementById('volume-slider');
+    volumeSlider.addEventListener('input', () => {
+        const volumeValue = volumeSlider.value;
+        alert(`Volume set to ${volumeValue}%`);
+    });
+
+    const searchInput = document.getElementById('search');
+    const searchResults = document.getElementById('search-results');
+
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase();
+        const filteredResults = playlists.filter(song => {
+            return song.title.toLowerCase().includes(query) || song.artist.toLowerCase().includes(query);
+        });
+        displaySearchResults(filteredResults);
+    });
+
+    function displaySearchResults(results) {
+        searchResults.innerHTML = '';
+        results.forEach(song => {
+            const resultElement = document.createElement('div');
+            resultElement.classList.add('search-result');
+            resultElement.innerHTML = `<p>${song.title} - ${song.artist} (${song.duration})</p>`;
+            searchResults.appendChild(resultElement);
+        });
+    }
 });
