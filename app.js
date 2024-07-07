@@ -21,10 +21,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const volumeSlider = document.getElementById('volume-slider');
     const playlistContainer = document.getElementById('playlist-container');
     const playlist = document.getElementById('playlist');
+    const favoriteButton = document.getElementById('favorite');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginButton = document.getElementById('login');
+    const logoutButton = document.getElementById('logout');
 
     let currentTrackIndex = 0;
     let tracks = [];
     let audio = new Audio();
+    let isAuthenticated = false;
+    let favorites = [];
 
     searchInput.addEventListener('keyup', async (event) => {
         const query = event.target.value;
@@ -109,15 +116,54 @@ document.addEventListener('DOMContentLoaded', () => {
         audio.volume = event.target.value / 100;
     });
 
-    function addToPlaylist(track) {
-        const trackDiv = document.createElement('div');
-        trackDiv.innerHTML = `
-            <h3>${track.name}</h3>
-            <p>${track.artists.map(artist => artist.name).join(', ')}</p>
-        `;
-        trackDiv.addEventListener('click', () => {
-            playTrack(track);
+    favoriteButton.addEventListener('click', () => {
+        if (isAuthenticated) {
+            const currentTrack = tracks[currentTrackIndex];
+            if (!favorites.some(track => track.id === currentTrack.id)) {
+                favorites.push(currentTrack);
+                alert('Track added to favorites!');
+                updateFavorites();
+            } else {
+                alert('Track is already in favorites!');
+            }
+        } else {
+            alert('Please login to add to favorites');
+        }
+    });
+
+    function updateFavorites() {
+        playlist.innerHTML = '';
+        favorites.forEach(track => {
+            const trackDiv = document.createElement('div');
+            trackDiv.innerHTML = `
+                <h3>${track.name}</h3>
+                <p>${track.artists.map(artist => artist.name).join(', ')}</p>
+            `;
+            playlist.appendChild(trackDiv);
         });
-        playlist.appendChild(trackDiv);
     }
+
+    loginButton.addEventListener('click', () => {
+        const username = usernameInput.value;
+        const password = passwordInput.value;
+        if (username === 'user' && password === 'password') {
+            isAuthenticated = true;
+            alert('Login successful');
+            usernameInput.style.display = 'none';
+            passwordInput.style.display = 'none';
+            loginButton.style.display = 'none';
+            logoutButton.style.display = 'inline-block';
+        } else {
+            alert('Invalid credentials');
+        }
+    });
+
+    logoutButton.addEventListener('click', () => {
+        isAuthenticated = false;
+        alert('Logout successful');
+        usernameInput.style.display = 'inline-block';
+        passwordInput.style.display = 'inline-block';
+        loginButton.style.display = 'inline-block';
+        logoutButton.style.display = 'none';
+    });
 });

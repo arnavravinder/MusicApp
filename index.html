@@ -12,6 +12,12 @@
         <header>
             <h1>Futuristic Music Player</h1>
             <input type="text" id="search" placeholder="Search for music...">
+            <div id="user-auth">
+                <input type="text" id="username" placeholder="Username">
+                <input type="password" id="password" placeholder="Password">
+                <button id="login">Login</button>
+                <button id="logout" style="display:none;">Logout</button>
+            </div>
         </header>
         <main>
             <div class="current-track" data-tilt>
@@ -20,6 +26,7 @@
                     <h2>Track Title</h2>
                     <p>Artist</p>
                     <p id="track-duration">00:00</p>
+                    <button id="favorite">Add to Favorites</button>
                 </div>
                 <div id="controls">
                     <button id="prev">Prev</button>
