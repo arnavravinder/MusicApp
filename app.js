@@ -127,3 +127,149 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+document.addEventListener('DOMContentLoaded', () => {
+
+    const shuffleButton = document.getElementById('shuffle');
+    const repeatButton = document.getElementById('repeat');
+
+    shuffleButton.addEventListener('click', () => {
+        alert('Shuffling playlist.');
+    });
+
+    repeatButton.addEventListener('click', () => {
+        alert('Repeat mode toggled.');
+    });
+
+    const shareButton = document.getElementById('share');
+    const socialMediaIcons = document.querySelectorAll('.social-media-icon');
+
+    shareButton.addEventListener('click', () => {
+        socialMediaIcons.forEach(icon => {
+            icon.classList.toggle('visible');
+        });
+    });
+
+    const themeSwitch = document.getElementById('theme-switch');
+    const body = document.body;
+
+    themeSwitch.addEventListener('change', () => {
+        if (themeSwitch.checked) {
+            body.classList.add('dark-theme');
+        } else {
+            body.classList.remove('dark-theme');
+        }
+    });
+
+    const lyricsButton = document.getElementById('lyrics');
+    const lyricsContainer = document.getElementById('lyrics-container');
+
+    lyricsButton.addEventListener('click', () => {
+        if (lyricsContainer.classList.contains('hidden')) {
+            lyricsContainer.classList.remove('hidden');
+        } else {
+            lyricsContainer.classList.add('hidden');
+        }
+    });
+
+    const settingsButton = document.getElementById('settings');
+    const settingsPanel = document.getElementById('settings-panel');
+
+    settingsButton.addEventListener('click', () => {
+        settingsPanel.classList.toggle('visible');
+    });
+
+    const clearButton = document.getElementById('clear');
+    const searchInput = document.getElementById('search');
+    const searchResults = document.getElementById('search-results');
+
+    clearButton.addEventListener('click', () => {
+        searchInput.value = '';
+        searchResults.innerHTML = '';
+    });
+
+    const alarmButton = document.getElementById('set-alarm');
+    const alarmTime = document.getElementById('alarm-time');
+
+    alarmButton.addEventListener('click', () => {
+        const time = alarmTime.value;
+        alert(`Alarm set for ${time}`);
+    });
+
+    const feedbackForm = document.getElementById('feedback-form');
+
+    feedbackForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(feedbackForm);
+        const feedbackMessage = formData.get('feedback-message');
+        alert(`Feedback received: ${feedbackMessage}`);
+        feedbackForm.reset();
+    });
+
+    const notificationButton = document.getElementById('notifications');
+
+    notificationButton.addEventListener('click', () => {
+        const notification = new Notification('New Notification', {
+            body: 'You have a new message!',
+            icon: 'path-to-notification-icon.png'
+        });
+    });
+
+    const donateButton = document.getElementById('donate');
+
+    donateButton.addEventListener('click', () => {
+        alert('Thank you for your donation!');
+    });
+
+    const timerButton = document.getElementById('start-timer');
+    const timerDisplay = document.getElementById('timer-display');
+
+    timerButton.addEventListener('click', () => {
+        let seconds = 0;
+        const timerInterval = setInterval(() => {
+            seconds++;
+            timerDisplay.textContent = `${Math.floor(seconds / 60)}:${seconds % 60}`;
+        }, 1000);
+
+        setTimeout(() => {
+            clearInterval(timerInterval);
+            timerDisplay.textContent = 'Timer Complete!';
+        }, 5000); // Example timer for 5 seconds
+    });
+
+    const shareLink = document.getElementById('share-link');
+
+    shareLink.addEventListener('click', () => {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url);
+        alert('Link copied to clipboard!');
+    });
+
+    const emojiButton = document.getElementById('emoji-picker');
+    const emojiContainer = document.getElementById('emoji-container');
+
+    emojiButton.addEventListener('click', () => {
+        emojiContainer.classList.toggle('visible');
+    });
+
+    const changeLanguageButton = document.getElementById('change-language');
+    const languageSelector = document.getElementById('language-selector');
+
+    changeLanguageButton.addEventListener('click', () => {
+        languageSelector.classList.toggle('visible');
+    });
+
+    const themeSelector = document.getElementById('theme-selector');
+
+    themeSelector.addEventListener('change', () => {
+        const selectedTheme = themeSelector.value;
+        body.classList.remove('theme-light', 'theme-dark');
+        body.classList.add(`theme-${selectedTheme}`);
+    });
+
+    const contactButton = document.getElementById('contact-support');
+
+    contactButton.addEventListener('click', () => {
+        alert('Contact support for assistance.');
+    });
+
+});

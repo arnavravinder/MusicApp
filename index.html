@@ -12,42 +12,41 @@
         <header>
             <h1>Futuristic Music Player</h1>
             <input type="text" id="search" placeholder="Search for music...">
-            <div id="user-auth">
-                <input type="text" id="username" placeholder="Username">
-                <input type="password" id="password" placeholder="Password">
-                <button id="login">Login</button>
-                <button id="logout" style="display:none;">Logout</button>
-            </div>
         </header>
         <main>
             <div class="current-track" data-tilt>
                 <div id="track-info">
-                    <img id="album-art" src="" alt="Album Art">
                     <h2>Track Title</h2>
                     <p>Artist</p>
-                    <p id="track-duration">00:00</p>
-                    <button id="favorite">Add to Favorites</button>
                 </div>
                 <div id="controls">
                     <button id="prev">Prev</button>
                     <button id="play">Play</button>
                     <button id="next">Next</button>
                 </div>
-                <div id="volume-control">
-                    <input type="range" id="volume-slider" min="0" max="100" value="50">
-                </div>
             </div>
-            <div id="loader">Loading...</div>
             <div id="search-results"></div>
-            <div id="playlist-container">
-                <h3>Your Playlist</h3>
-                <div id="playlist"></div>
+            <div id="playlist">
+                <!-- Playlist items will be dynamically added here -->
             </div>
-            <div id="favorites-container">
-                <h3>Your Favorites</h3>
-                <div id="favorites"></div>
+            <div id="favorites">
+                <!-- Favorite songs will be dynamically added here -->
             </div>
         </main>
+        <footer>
+            <div id="login-form">
+                <input type="text" id="username" placeholder="Username">
+                <input type="password" id="password" placeholder="Password">
+                <button id="login">Login</button>
+                <button id="logout" style="display: none;">Logout</button>
+            </div>
+            <div id="volume-control">
+                <input type="range" id="volume-slider" min="0" max="100" value="50" step="1">
+            </div>
+            <div id="favorite">
+                <button id="favorite">Add to Favorites</button>
+            </div>
+        </footer>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" integrity="sha512-3kX5RaK4gbSpBBT/HtFk+yDZj2lpTLvsSeJGRuDbk69KtjqS95wqF3kHQIx+5nW0Tc8/qJZTNAZjzPlzAW3H6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-Gfn7zFZ8eCmULHXAZHhf9K4hhs1QBDDSBR5JrDo95uUK2LSff7j6H1r6+uuz5MOe19uOxr+ISGlnVzPQtF9p0g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
